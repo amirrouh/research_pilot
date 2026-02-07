@@ -19,6 +19,8 @@ nav:
   - Tutorials:
     - Getting Started: tutorials/README.md
     - Searching Papers: tutorials/articles.md
+    - Google Scholar: tutorials/google_scholar.md
+    - Job Search: tutorials/jobs.md
     - Document OCR: tutorials/ocr.md
     - File Operations: tutorials/files.md
     - Saving & Finding: tutorials/storage.md
