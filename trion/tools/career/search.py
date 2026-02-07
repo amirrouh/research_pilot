@@ -147,3 +147,90 @@ def search_jobs(
 
     except Exception as e:
         return f"Error searching {platform}: {str(e)}"
+
+
+@tool
+def search_and_save_jobs(
+    platform: str,
+    keywords: str,
+    location: str,
+    tags: str = "",
+    status: str = "new",
+    results_wanted: int = 10
+) -> str:
+    """
+    Search for jobs and save them to the database in one step.
+
+    This tool combines searching and saving. Use this when you want to find
+    jobs and store them for tracking applications.
+
+    Args:
+        platform: Job platform - "linkedin" or "indeed"
+        keywords: Job title or keywords (e.g., "software engineer", "data scientist")
+        location: Location (e.g., "San Francisco, CA", "remote")
+        tags: Comma-separated tags to organize jobs (e.g., "python,remote,priority")
+        status: Job status - "new", "saved", "applied", "interviewing", "offer", "rejected"
+        results_wanted: Number of jobs to find and save (default: 10, max: 50)
+
+    Returns:
+        Summary of jobs found and saved
+
+    Example:
+        To find and save software engineer jobs in SF:
+        search_and_save_jobs(platform="linkedin", keywords="software engineer", location="San Francisco, CA", tags="python,fulltime", status="new", results_wanted=10)
+    """
+    try:
+        # Validate platform
+        platform_lower = platform.lower()
+        if platform_lower not in ["linkedin", "indeed"]:
+            return f"Error: Platform must be 'linkedin' or 'indeed', got '{platform}'"
+
+        # Search for jobs
+        try:
+            jobs = search(cast(Platform, platform_lower), keywords, location, min(results_wanted, 50))
+        except Exception as scrape_error:
+            error_msg = str(scrape_error)
+
+            # Handle common scraping errors
+            if "401" in error_msg or "403" in error_msg:
+                return (
+                    f"{platform.capitalize()} is blocking automated requests.\n\n"
+                    f"Try:\n"
+                    f"1. Use 'linkedin' instead if you used Indeed\n"
+                    f"2. Wait a few minutes and try again\n"
+                    f"3. Search manually at https://{platform_lower}.com/jobs"
+                )
+            else:
+                raise  # Re-raise if it's not a known scraping issue
+
+        if not jobs:
+            return f"No jobs found on {platform} for '{keywords}' in {location}"
+
+        # Save to database
+        from trion.tools.storage.career import save_jobs_batch
+        tag_list = [t.strip() for t in tags.split(',') if t.strip()] if tags else []
+        stats = save_jobs_batch(jobs, tags=tag_list, status=status, platform=platform_lower)
+
+        # Format response
+        output = [
+            f"Found and processed {len(jobs)} jobs for '{keywords}' on {platform.capitalize()}:",
+            f"\n✓ Saved: {stats['saved']} jobs",
+            f"✓ Skipped (duplicates): {stats['skipped']}",
+            f"\nTop 3 jobs:"
+        ]
+
+        for i, job in enumerate(jobs[:3], 1):
+            output.append(f"\n{i}. {job['title']} at {job['company']}")
+            output.append(f"   Location: {job['location']}")
+
+            if job.get('salary_min') and job.get('salary_max'):
+                currency = job.get('salary_currency', '$')
+                output.append(f"   Salary: {currency}{job['salary_min']:,.0f} - {currency}{job['salary_max']:,.0f}")
+
+            if job.get('url'):
+                output.append(f"   URL: {job['url']}")
+
+        return "\n".join(output)
+
+    except Exception as e:
+        return f"Error: {str(e)}"

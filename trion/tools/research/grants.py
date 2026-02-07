@@ -668,7 +668,7 @@ def cite_grant(project_num: str, style: str = "APA") -> str:
 @tool
 def search_and_save_grants(
     keywords: str,
-    fiscal_year: int,
+    fiscal_year: int = 0,
     tags: str = "",
     limit: int = 10
 ) -> str:
@@ -680,7 +680,7 @@ def search_and_save_grants(
 
     Args:
         keywords: Search terms like "Alzheimer's", "cancer", "CRISPR"
-        fiscal_year: Fiscal year to filter by, e.g. 2023, 2024
+        fiscal_year: Fiscal year to filter by, e.g. 2023, 2024 (optional, use 0 for all years)
         tags: Comma-separated tags to organize grants (e.g., "alzheimer,neuroscience")
         limit: Number of grants to find and save (default 10)
 
