@@ -1,41 +1,75 @@
 # Research Pilot
 
-Automate research workflows: search papers, extract text from documents, and organize findings.
+Research automation toolkit for searching academic papers, extracting text from documents, and managing research workflows.
 
 ## Features
 
 - **Search** - PubMed, arXiv papers and NIH grants
 - **OCR** - Extract text from PDFs/images with structure preservation
-- **Storage** - Local SQLite database with tags and notes
+- **Storage** - Local database with tags and notes
+- **Files** - Download, read, and write operations
 - **Agents** - AI-powered automation with LangChain
-- **Browser** - Web automation for scraping and interaction
+- **Browser** - Web scraping and automation
+
+## Installation
+
+```bash
+# Clone repository
+git clone git@github.com:amirrouh/research_pilot.git
+cd research_pilot
+
+# Install dependencies
+uv sync
+```
 
 ## Quick Start
 
-```bash
-# Install
-uv sync
+### Search Papers
 
-# Search papers
-uv run python -c "
+```python
 from assistant.tools.research.articles import query
-papers = query(keywords='CRISPR', sources=[('pubmed', 5)])
-print(papers[['title', 'year']])
-"
 
-# Extract text from PDF
-uv run python -c "
+papers = query(keywords="CRISPR", sources=[('pubmed', 5)])
+print(papers[['title', 'year']])
+```
+
+### Extract Text from PDF
+
+```python
 from assistant.tools.document.ocr import read
-text = read('document.pdf')
-print(text[:500])
-"
+
+text = read("paper.pdf")
+```
+
+### Save and Search
+
+```python
+from assistant.tools.storage.articles import save_papers_batch, search_papers_db
+
+save_papers_batch(papers, tags=['genomics'])
+saved = search_papers_db(tags=['genomics'])
+```
+
+## Configuration
+
+Copy `config.yaml.example` to `config.yaml` and configure your LLM settings:
+
+```yaml
+llm:
+  function_calling:
+    model: qwen2.5:latest
+    base_url: http://localhost:11434
+    temperature: 0.7
 ```
 
 ## Documentation
 
-Full documentation: `./run.sh documentation serve`
+Full documentation: https://amirrouh.github.io/research_pilot/
 
-Or see [docs/](docs/index.md)
+Or build locally:
+```bash
+./run.sh documentation serve
+```
 
 ## Project Structure
 
@@ -43,27 +77,16 @@ Or see [docs/](docs/index.md)
 assistant/
 ├── tools/
 │   ├── research/      # Search papers and grants
-│   ├── document/      # OCR and document processing
+│   ├── document/      # OCR, read, write
 │   ├── storage/       # Database operations
-│   └── web/           # Browser automation
+│   └── web/           # Download, browser automation
 └── agents/            # AI agent framework
 ```
 
-## Configuration
-
-Copy `config.yaml.example` to `config.yaml` and configure LLM settings:
-
-```yaml
-llm:
-  function_calling:
-    model: qwen2.5:latest
-    base_url: http://localhost:11434
-```
-
-## Development
-
-See [CLAUDE.md](CLAUDE.md) for code organization rules and development guidelines.
-
 ## License
 
-Private project.
+Apache License 2.0
+
+## Contributing
+
+Contributions welcome. Please open an issue first to discuss changes.
