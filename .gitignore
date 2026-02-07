@@ -1,0 +1,41 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Configuration
+.env
+config.yaml
+*.yaml
+!config.yaml.example
+
+# Claude Code CLI
+.claude/
+
+# Database files
+files/
+*.db
+
+# Temporary files
+tmp/
+
+# Documentation build
+site/
+
+# Frontend
+frontend/node_modules/
+frontend/.next/
+frontend/.env.local
+frontend/out/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

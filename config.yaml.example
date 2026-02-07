@@ -1,0 +1,47 @@
+# Assistant Configuration Example
+# Copy this to config.yaml and customize
+# Define different LLMs for different purposes
+
+llm:
+  # For agents with tools/function calling
+  function_calling:
+    model: qwen2.5:latest
+    base_url: http://localhost:11434
+    temperature: 0.7
+
+  # For complex reasoning tasks
+  reasoning:
+    model: qwen2.5:latest
+    base_url: http://localhost:11434
+    temperature: 0.3  # Lower for more focused reasoning
+
+  # For general chat/questions
+  general:
+    model: qwen2.5:latest
+    base_url: http://localhost:11434
+    temperature: 0.7
+
+  # For vision/image tasks (OCR, image analysis)
+  vision:
+    model: qwen3-vl:8b
+    base_url: http://localhost:11434
+    temperature: 0.1  # Low temp for accurate OCR
+
+  # For embeddings/semantic search
+  embedding:
+    model: nomic-embed-text:latest
+    base_url: http://localhost:11434
+
+# Cloud provider examples:
+# llm:
+#   function_calling:
+#     model: anthropic/claude-3.5-sonnet
+#     base_url: https://openrouter.ai/api/v1
+#     api_key: your-api-key-here
+#     temperature: 0.7
+
+# Database Configuration
+storage:
+  database_path: "files/dbs/papers.db"         # Papers database
+  grants_database_path: "files/dbs/grants.db"  # NIH grants database
+  auto_init: true                              # Create DB on first use
