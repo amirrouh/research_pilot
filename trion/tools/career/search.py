@@ -89,7 +89,24 @@ def search_jobs(
         if platform_lower not in ["linkedin", "indeed"]:
             return f"Error: Platform must be 'linkedin' or 'indeed', got '{platform}'"
 
-        jobs = search(cast(Platform, platform_lower), keywords, location, min(results_wanted, 50))
+        try:
+            jobs = search(cast(Platform, platform_lower), keywords, location, min(results_wanted, 50))
+        except Exception as scrape_error:
+            error_msg = str(scrape_error)
+
+            # Handle common scraping errors
+            if "401" in error_msg or "403" in error_msg:
+                return (
+                    f"{platform.capitalize()} is blocking automated requests (error: {error_msg}).\n\n"
+                    f"Try:\n"
+                    f"1. Use 'linkedin' instead: search_jobs('linkedin', '{keywords}', '{location}')\n"
+                    f"2. Wait a few minutes and try again\n"
+                    f"3. Search manually at https://{platform_lower}.com/jobs"
+                )
+            elif "timeout" in error_msg.lower():
+                return f"{platform.capitalize()} request timed out. Try again or use a different platform."
+            else:
+                raise  # Re-raise if it's not a known scraping issue
 
         if not jobs:
             return f"No jobs found on {platform} for '{keywords}' in {location}"
