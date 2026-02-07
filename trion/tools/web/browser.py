@@ -4,11 +4,6 @@ import logging
 import random
 import time
 from typing import Optional
-from trion.tools._dependencies import require_package
-
-# Check required packages
-require_package("playwright", "web")
-require_package("bs4", "web", "beautifulsoup4")
 
 from bs4 import BeautifulSoup
 from playwright.sync_api import sync_playwright, Browser, Page, TimeoutError as PlaywrightTimeoutError

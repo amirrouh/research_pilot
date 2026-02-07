@@ -5,7 +5,7 @@ Supports LinkedIn and Indeed with consistent interface.
 
 from typing import Literal, List, Dict, cast
 from langchain.tools import tool
-from trion.tools._dependencies import require_package
+from jobspy import scrape_jobs
 
 
 Platform = Literal["linkedin", "indeed"]
@@ -30,11 +30,7 @@ def search(
         List of job dictionaries with keys: title, company, location, url, description,
         date_posted, job_type, salary_min, salary_max, is_remote
 
-    Raises:
-        ImportError: If python-jobspy is not installed
     """
-    require_package("jobspy", "web", "python-jobspy")
-    from jobspy import scrape_jobs
 
     # Scrape jobs
     df = scrape_jobs(
@@ -132,13 +128,5 @@ def search_jobs(
 
         return "\n".join(output)
 
-    except ImportError as e:
-        return (
-            "Error: python-jobspy package not installed.\n\n"
-            "Install it with one of:\n"
-            "  pip install python-jobspy\n"
-            "  pip install trion[web]\n"
-            "  pip install trion[all]\n"
-        )
     except Exception as e:
         return f"Error searching {platform}: {str(e)}"

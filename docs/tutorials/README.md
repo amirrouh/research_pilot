@@ -4,31 +4,11 @@ Get Trion up and running in minutes.
 
 ## Installation
 
-### Basic Installation
-
 ```bash
-pip install trion[all]
+pip install trion
 ```
 
-This installs Trion with all features enabled.
-
-### Feature-Specific Installation
-
-Install only what you need:
-
-```bash
-# Research tools only
-pip install trion[research]
-
-# Document processing
-pip install trion[document]
-
-# Web automation
-pip install trion[web]
-
-# Development tools
-pip install trion[dev]
-```
+All features included - no need to specify extras!
 
 ### Development Installation
 
@@ -37,7 +17,7 @@ If you're developing or contributing:
 ```bash
 git clone https://github.com/yourusername/trion.git
 cd trion
-pip install -e .[all]
+pip install -e .
 ```
 
 ## Configuration (Optional)
@@ -134,12 +114,8 @@ If you get `ModuleNotFoundError`:
 pip show trion
 
 # Reinstall if needed
-pip install --upgrade trion[all]
+pip install --upgrade trion
 ```
-
-### Autocomplete Not Working
-
-See [autocomplete fix guide](../../tmp/AUTOCOMPLETE_FIX.md) for IDE setup.
 
 ### LLM Connection Issues
 

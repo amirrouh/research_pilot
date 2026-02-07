@@ -8,7 +8,7 @@ Pure Python library for research automation, academic literature search, documen
 
 ```python
 # Install
-pip install trion[all]
+pip install trion
 
 # Search papers
 from trion.tools.research.articles import query
@@ -34,20 +34,11 @@ response = my_agent.call("Find recent CRISPR papers")
 
 ## Installation
 
-### Basic Installation
-
 ```bash
-pip install trion[all]
+pip install trion
 ```
 
-### Feature-Specific Installation
-
-```bash
-pip install trion[research]  # Research tools only
-pip install trion[document]  # Document processing
-pip install trion[web]       # Web automation
-pip install trion[dev]       # Development tools
-```
+All features included - just install and use!
 
 ## Core Concepts
 

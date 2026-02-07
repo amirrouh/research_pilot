@@ -8,35 +8,30 @@ license = {text = "MIT"}
 authors = [{name = "Amir", email = "amir@example.com"}]
 
 dependencies = [
+    # Core
     "langchain>=0.3.0",
     "langchain-ollama>=0.2.0",
     "pyyaml>=6.0",
     "deepagents>=0.3.12",
-]
-
-[project.optional-dependencies]
-research = [
+    # Research tools
     "biopython>=1.80",
     "arxiv>=2.0.0",
     "pandas>=2.0.0",
-]
-document = [
+    # Document tools
     "docling>=2.0.0",
     "beautifulsoup4>=4.12.0",
     "lxml>=5.0.0",
-]
-web = [
+    # Web tools
     "playwright>=1.40.0",
     "requests>=2.31.0",
     "python-jobspy>=1.1.0",
     "ddgs>=0.2.0",
 ]
+
+[project.optional-dependencies]
 dev = [
     "mkdocs>=1.6.1",
     "mkdocs-material>=9.7.1",
-]
-all = [
-    "trion[research,document,web,dev]",
 ]
 
 [build-system]

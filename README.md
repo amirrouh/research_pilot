@@ -17,16 +17,10 @@ Pure Python library for research automation, academic literature search, documen
 ## Installation
 
 ```bash
-pip install trion[all]
+pip install trion
 ```
 
-Or install specific feature sets:
-
-```bash
-pip install trion[research]  # Research tools only
-pip install trion[document]  # Document processing
-pip install trion[web]       # Web automation
-```
+That's it! All features included.
 
 ## Quick Start
 

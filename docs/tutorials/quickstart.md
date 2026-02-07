@@ -5,7 +5,7 @@ Get started with Trion in 5 minutes.
 ## Installation
 
 ```bash
-pip install trion[all]
+pip install trion
 ```
 
 ## 1. Search Papers (Direct)
