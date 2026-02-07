@@ -5,7 +5,7 @@ Scrape complete Google Scholar profiles with all publications and author metrics
 ## Basic Usage
 
 ```python
-from assistant.tools.research.google_scholar import fetch_profile
+from trion.tools.research.google_scholar import fetch_profile
 
 # Scrape profile
 result = fetch_profile(
@@ -96,8 +96,8 @@ df.to_csv('publications.csv', index=False)
 ## Using with Agents
 
 ```python
-from assistant.agents.core import agent
-from assistant.tools.research.google_scholar import scrape_scholar_profile
+from trion.agents.core import agent
+from trion.tools.research.google_scholar import scrape_scholar_profile
 
 # Create scholar agent
 scholar_agent = agent(scrape_scholar_profile, llm_type="function_calling")

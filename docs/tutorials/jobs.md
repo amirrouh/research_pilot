@@ -5,7 +5,7 @@ Search for jobs on LinkedIn and Indeed using a unified interface.
 ## Basic Usage
 
 ```python
-from assistant.tools.career.search import search
+from trion.tools.career.search import search
 
 # Search Indeed
 jobs = search(
@@ -63,8 +63,8 @@ Each job contains:
 ## Using with Agents
 
 ```python
-from assistant.agents.core import agent
-from assistant.tools.career.search import search_jobs
+from trion.agents.core import agent
+from trion.tools.career.search import search_jobs
 
 # Create job search agent
 job_agent = agent(search_jobs, llm_type="function_calling")

@@ -11,8 +11,8 @@ Simple LangChain agents for straightforward tasks.
 ### Search Agent
 
 ```python
-from assistant.agents.core import agent
-from assistant.tools.research.articles import search_papers
+from trion.agents.core import agent
+from trion.tools.research.articles import search_papers
 
 # Create agent
 my_agent = agent(search_papers)
@@ -25,9 +25,9 @@ print(response)
 ### Research Agent (Multiple Tools)
 
 ```python
-from assistant.agents.core import agent
-from assistant.tools.research.articles import search_papers
-from assistant.tools.storage.articles import save_papers_to_db, find_saved_papers
+from trion.agents.core import agent
+from trion.tools.research.articles import search_papers
+from trion.tools.storage.articles import save_papers_to_db, find_saved_papers
 
 # Create agent with multiple tools
 research_agent = agent(search_papers, save_papers_to_db, find_saved_papers)
@@ -58,8 +58,8 @@ Advanced agents with skills, planning, file access, and subagents.
 ### Minimal Usage
 
 ```python
-from assistant.agents.deepAgent import deep_agent
-from assistant.tools.research.articles import search_papers
+from trion.agents.deepAgent import deep_agent
+from trion.tools.research.articles import search_papers
 
 # Create agent
 agent = deep_agent(search_papers)
@@ -80,7 +80,7 @@ response = agent.call("Find papers about gene therapy")
 ### With All Skills
 
 ```python
-# Load all skills from assistant/skills/
+# Load all skills from ~/.trion/skills/
 agent = deep_agent(search_papers, all_skills=True)
 response = agent.call("Research quantum computing")
 ```
@@ -132,7 +132,7 @@ response = agent.call("Your task")
 ### DeepAgent
 - `*tools` - Tools to give the agent
 - `skill` - Load specific skill by name (e.g., "paper-finder")
-- `all_skills` - Load all skills from assistant/skills/ (default: False)
+- `all_skills` - Load all skills from ~/.trion/skills/ (default: False)
 - `llm_type` - Which LLM config ("function_calling", "reasoning", "general")
 - `system_prompt` - Custom instructions
 
@@ -146,7 +146,7 @@ See [Skills Tutorial](skills.md) for full guide.
 
 Quick version:
 
-1. Create `assistant/skills/my-skill/SKILL.md`
+1. Create `~/.trion/skills/my-skill/SKILL.md`
 2. Add frontmatter + instructions:
 
 ```markdown

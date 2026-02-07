@@ -217,24 +217,52 @@ def list_tools() -> dict:
     """
     List all available tools by category.
 
+    Auto-discovers tools from:
+    - Built-in: trion/tools/
+    - User: ~/.trion/tools/
+
     Returns:
         Dictionary mapping category names to lists of tool names
+        Example: {'research': ['articles', 'grants'], 'user': ['my_tool'], ...}
     """
-    # Scan tools directory
-    tools_dir = Path(__file__).parent / "tools"
     tools = {}
 
-    if not tools_dir.exists():
-        return tools
+    # Scan built-in tools directory
+    builtin_tools_dir = Path(__file__).parent / "tools"
+    if builtin_tools_dir.exists():
+        for category_dir in builtin_tools_dir.iterdir():
+            if category_dir.is_dir() and category_dir.name != "__pycache__":
+                category = category_dir.name
+                tools[category] = []
 
-    for category_dir in tools_dir.iterdir():
-        if category_dir.is_dir() and category_dir.name != "__pycache__":
-            category = category_dir.name
-            tools[category] = []
+                for tool_file in category_dir.glob("*.py"):
+                    if tool_file.name != "__init__.py":
+                        tools[category].append(tool_file.stem)
 
-            for tool_file in category_dir.glob("*.py"):
-                if tool_file.name != "__init__.py":
-                    tools[category].append(tool_file.stem)
+    # Scan user tools directory (~/.trion/tools/)
+    user_tools_dir = Path.home() / ".trion" / "tools"
+    if user_tools_dir.exists():
+        # User tools go in 'user' category
+        user_tools = []
+        for tool_file in user_tools_dir.glob("*.py"):
+            if tool_file.name != "__init__.py":
+                user_tools.append(tool_file.stem)
+
+        if user_tools:
+            tools['user'] = user_tools
+
+        # Also scan subdirectories in user tools
+        for category_dir in user_tools_dir.iterdir():
+            if category_dir.is_dir() and category_dir.name != "__pycache__":
+                category = f"user_{category_dir.name}"
+                category_tools = []
+
+                for tool_file in category_dir.glob("*.py"):
+                    if tool_file.name != "__init__.py":
+                        category_tools.append(tool_file.stem)
+
+                if category_tools:
+                    tools[category] = category_tools
 
     return tools
 

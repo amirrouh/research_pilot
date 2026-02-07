@@ -74,7 +74,11 @@ response = agent.call("Review machine learning papers from 2024")
 
 ## Creating Tools
 
-### Basic Tool Creation
+Trion auto-discovers tools from:
+- **Built-in**: `trion/tools/` (packaged with Trion)
+- **User**: `~/.trion/tools/` (your custom tools)
+
+### Method 1: Programmatic Creation
 
 ```python
 from trion import create_tool
@@ -95,6 +99,40 @@ from trion import agent
 
 my_agent = agent(tool)
 response = my_agent.call("Calculate impact factor for 120 citations over 3 years")
+```
+
+### Method 2: Drop File in ~/.trion/tools/
+
+Create a Python file in `~/.trion/tools/my_tool.py`:
+
+```python
+from langchain.tools import tool
+
+@tool
+def my_custom_tool(query: str) -> str:
+    """Description of what this tool does"""
+    # Your implementation
+    return f"Result: {query}"
+```
+
+That's it! Trion automatically discovers it:
+
+```python
+from trion import list_tools
+
+tools = list_tools()
+print(tools['user'])  # ['my_custom_tool']
+```
+
+Import and use:
+
+```python
+# Auto-discovered from ~/.trion/tools/
+from sys import path
+path.insert(0, str(Path.home() / ".trion" / "tools"))
+from my_tool import my_custom_tool
+
+# Or just use create_tool and save
 ```
 
 ### Save Tool to File

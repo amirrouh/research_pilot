@@ -5,7 +5,7 @@ Simple tools for downloading, reading, and writing files.
 ## Download Files
 
 ```python
-from assistant.tools.web.download import download
+from trion.tools.web.download import download
 
 # Download from URL
 download("https://example.com/paper.pdf", "downloads/paper.pdf")
@@ -17,7 +17,7 @@ download("https://data.gov/dataset.csv", "data/2024/dataset.csv")
 ## Read Files
 
 ```python
-from assistant.tools.document.read import read
+from trion.tools.document.read import read
 
 # Read text file
 content = read("document.txt")
@@ -32,7 +32,7 @@ data = read("config.json")
 ## Write Files
 
 ```python
-from assistant.tools.document.write import write
+from trion.tools.document.write import write
 
 # Write text
 write("Hello World", "output.txt")
@@ -49,9 +49,9 @@ write('{"key": "value"}', "data.json")
 ### Download and Extract
 
 ```python
-from assistant.tools.web.download import download
-from assistant.tools.document.ocr import read as ocr_read
-from assistant.tools.document.write import write
+from trion.tools.web.download import download
+from trion.tools.document.ocr import read as ocr_read
+from trion.tools.document.write import write
 
 # Download PDF
 download("https://example.com/paper.pdf", "papers/paper.pdf")
@@ -66,8 +66,8 @@ write(text, "papers/paper.md")
 ### Read, Process, Write
 
 ```python
-from assistant.tools.document.read import read
-from assistant.tools.document.write import write
+from trion.tools.document.read import read
+from trion.tools.document.write import write
 
 # Read
 content = read("input.txt")
@@ -82,8 +82,8 @@ write(processed, "output.txt")
 ### Save Search Results
 
 ```python
-from assistant.tools.research.articles import query
-from assistant.tools.document.write import write
+from trion.tools.research.articles import query
+from trion.tools.document.write import write
 import json
 
 # Search papers
@@ -97,10 +97,10 @@ write(json.dumps(data, indent=2), "papers.json")
 ## Using with Agents
 
 ```python
-from assistant.agents.core import agent
-from assistant.tools.web.download import download_file
-from assistant.tools.document.read import read_file
-from assistant.tools.document.write import write_file
+from trion.agents.core import agent
+from trion.tools.web.download import download_file
+from trion.tools.document.read import read_file
+from trion.tools.document.write import write_file
 
 # Create agents
 dl = agent(download_file, llm_type="function_calling")

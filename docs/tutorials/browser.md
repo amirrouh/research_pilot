@@ -3,7 +3,7 @@
 ## Basic Usage
 
 ```python
-from assistant.tools.web.browser import get_content
+from trion.tools.web.browser import get_content
 
 # Fetch page content
 content = get_content("https://example.com")
@@ -30,7 +30,7 @@ content = get_content(
 ## Extract Images
 
 ```python
-from assistant.tools.web.browser import get_content_with_images
+from trion.tools.web.browser import get_content_with_images
 
 # Get text and images
 result = get_content_with_images("https://example.com")

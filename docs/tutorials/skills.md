@@ -1,6 +1,6 @@
 # Skills
 
-Skills are reusable capability bundles for DeepAgents.
+Skills are reusable capability bundles for DeepAgents that auto-load from `~/.trion/skills/`.
 
 ---
 
@@ -11,19 +11,37 @@ Skills define specialized workflows that DeepAgents can load automatically. Each
 - **Frontmatter**: Metadata (name, description)
 - **Instructions**: Step-by-step guidance for the agent
 
+**Auto-Discovery**: Just drop a skill folder in `~/.trion/skills/` and it's automatically available!
+
 ---
 
 ## Quick Start
 
-### 1. Create Skill Directory
+### 1. Create Skill (Easiest Way)
 
-```bash
-mkdir -p assistant/skills/my-skill
+```python
+from trion import create_skill
+
+create_skill(
+    name="my-skill",
+    description="When to use this skill",
+    instructions="""
+1. Step one
+2. Step two
+3. Step three
+"""
+)
 ```
 
-### 2. Create SKILL.md
+Done! Skill is now in `~/.trion/skills/my-skill/` and automatically available.
 
-Create `assistant/skills/my-skill/SKILL.md`:
+### 2. Or Create Manually
+
+```bash
+mkdir -p ~/.trion/skills/my-skill
+```
+
+Create `~/.trion/skills/my-skill/SKILL.md`:
 
 ```markdown
 ---
@@ -45,22 +63,42 @@ What this skill does
 - tool_name: What it does
 ```
 
-### 3. Use with DeepAgent
+Done! Trion auto-discovers it.
+
+### 3. Use It
 
 ```python
-from assistant.agents.deepAgent import deep_agent
-from assistant.tools.some_tool import my_tool
+from trion import deep_agent
+from trion.tools.research.articles import search_papers
 
-# Load specific skill
-agent = deep_agent(my_tool, skill="my-skill")
+# Skill is automatically available
+agent = deep_agent(search_papers, skill="my-skill")
 response = agent.call("Do something")
+```
+
+---
+
+## Auto-Discovery
+
+Trion automatically finds skills in two locations:
+
+1. **Built-in**: `trion/skills/` (packaged with Trion)
+2. **User**: `~/.trion/skills/` (your custom skills)
+
+Just add/remove skill folders and Trion updates automatically!
+
+```python
+from trion import list_skills
+
+skills = list_skills()
+# {'built_in': ['paper-finder'], 'user': ['my-skill'], 'all': [...]}
 ```
 
 ---
 
 ## Example: Paper Finder Skill
 
-**Location**: `assistant/skills/paper-finder/SKILL.md`
+**Built-in Location**: `trion/skills/paper-finder/SKILL.md`
 
 ```markdown
 ---
@@ -91,13 +129,71 @@ Searches PubMed and arXiv for academic papers and presents results clearly.
 **Usage**:
 
 ```python
-from assistant.agents.deepAgent import deep_agent
-from assistant.tools.research.articles import search_papers
+from trion import deep_agent
+from trion.tools.research.articles import search_papers
 
 agent = deep_agent(search_papers, skill="paper-finder")
 response = agent.call("Find CRISPR papers")
 print(response)
 ```
+
+---
+
+## How Skills Load
+
+Skills auto-load from `~/.trion/skills/` and built-in `trion/skills/`.
+
+### 1. Specific Skill
+
+```python
+# Load only one skill by name
+agent = deep_agent(tool, skill="paper-finder")
+```
+
+The agent loads **only** the `paper-finder` skill.
+
+### 2. All Skills
+
+```python
+# Load all skills from both locations
+agent = deep_agent(tool, all_skills=True)
+```
+
+The agent loads **all** skills and chooses which to use based on the prompt.
+
+---
+
+## Skill Locations
+
+### User Skills (Your Custom Skills)
+```
+~/.trion/skills/
+├── my-skill/
+│   └── SKILL.md
+├── literature-review/
+│   └── SKILL.md
+└── grant-finder/
+    └── SKILL.md
+```
+
+### Built-in Skills (Packaged with Trion)
+```
+trion/skills/
+└── paper-finder/
+    └── SKILL.md
+```
+
+---
+
+## Progressive Disclosure
+
+DeepAgents use "progressive disclosure":
+
+1. **At startup**: Read frontmatter from all SKILL.md files
+2. **When matched**: Load full SKILL.md when user prompt matches description
+3. **Execute**: Follow instructions in SKILL.md
+
+This keeps context small until needed.
 
 ---
 
@@ -113,42 +209,6 @@ print(response)
 - `disable-model-invocation` - Set to `true` to prevent auto-loading
 - `user-invocable` - Set to `false` to hide from user
 - `allowed-tools` - Tools agent can use without permission
-
----
-
-## How Skills Load
-
-Skills load in two ways:
-
-### 1. Specific Skill
-
-```python
-# Load only one skill by name
-agent = deep_agent(tool, skill="paper-finder")
-```
-
-The agent loads **only** the `paper-finder` skill.
-
-### 2. All Skills
-
-```python
-# Load all skills from assistant/skills/
-agent = deep_agent(tool, all_skills=True)
-```
-
-The agent loads **all** skills and chooses which to use based on the prompt.
-
----
-
-## Progressive Disclosure
-
-DeepAgents use "progressive disclosure":
-
-1. **At startup**: Read frontmatter from all SKILL.md files
-2. **When matched**: Load full SKILL.md when user prompt matches description
-3. **Execute**: Follow instructions in SKILL.md
-
-This keeps context small until needed.
 
 ---
 
@@ -177,13 +237,12 @@ List available tools in the instructions so the agent knows what it can use.
 ## Skill Structure
 
 ```
-assistant/skills/
-└── my-skill/
-    ├── SKILL.md          # Main instructions (required)
-    ├── template.md       # Optional template
-    ├── examples.md       # Optional examples
-    └── scripts/
-        └── helper.sh     # Optional scripts
+~/.trion/skills/my-skill/
+├── SKILL.md          # Main instructions (required)
+├── template.md       # Optional template
+├── examples.md       # Optional examples
+└── scripts/
+    └── helper.sh     # Optional scripts
 ```
 
 Only `SKILL.md` is required. Add other files as needed.
@@ -212,24 +271,38 @@ Reference files from SKILL.md so the agent knows when to load them.
 
 ---
 
-## Examples
+## Share Skills
 
-See existing skills in `assistant/skills/`:
-- `paper-finder/` - Search academic papers
+Share your skills by sharing the SKILL.md file:
+
+```bash
+# Export skill
+cp ~/.trion/skills/my-skill/SKILL.md ./my-skill.md
+
+# Share with team
+git add my-skill.md
+git commit -m "Add my-skill"
+```
+
+Team members can import:
+
+```python
+from trion import create_skill
+
+create_skill(markdown_path="my-skill.md")
+```
 
 ---
 
 ## Testing Skills
 
-Create a test to verify your skill works:
-
 ```python
-from assistant.agents.deepAgent import deep_agent
-from assistant.tools.research.articles import search_papers
+from trion import deep_agent
+from trion.tools.research.articles import search_papers
 
 # Test the skill
-agent = deep_agent(search_papers, skill="paper-finder")
-response = agent.call("Find quantum computing papers")
+agent = deep_agent(search_papers, skill="my-skill")
+response = agent.call("Test query")
 
 print(response)
 ```
@@ -238,11 +311,18 @@ print(response)
 
 ## Troubleshooting
 
-### Skill not loading
+### Skill not found
 
-- Check directory name matches skill name in frontmatter
-- Verify SKILL.md exists in `assistant/skills/your-skill/`
-- Check description is specific enough
+```python
+from trion import list_skills
+
+skills = list_skills()
+print(skills['user'])  # Check if your skill appears
+```
+
+If not listed:
+- Check `~/.trion/skills/your-skill/SKILL.md` exists
+- Verify frontmatter has `description` field
 
 ### Agent doesn't use skill
 
@@ -250,10 +330,18 @@ print(response)
 - Try using `skill="name"` to force loading
 - Check skill instructions are clear
 
+### Remove skill
+
+```bash
+rm -rf ~/.trion/skills/unwanted-skill
+```
+
+Trion automatically stops finding it!
+
 ---
 
 ## Resources
 
-- See `assistant/skills/README.md` for more details
-- See `assistant/agents/README.md` for agent usage
-- Example skills in `assistant/skills/`
+- [Management Functions](management.md) - Create skills programmatically
+- [Using Agents](agents.md) - Agent usage patterns
+- Built-in skills: See `trion/skills/` in package

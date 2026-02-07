@@ -5,7 +5,7 @@ Extract text from PDFs and images with structure preservation using Docling (IBM
 ## Basic Usage
 
 ```python
-from assistant.tools.document.ocr import read
+from trion.tools.document.ocr import read
 
 # Extract from PDF
 text = read("document.pdf")
@@ -57,8 +57,8 @@ This is a paragraph with proper formatting.
 ## Using with Agents
 
 ```python
-from assistant.agents.core import agent
-from assistant.tools.document.ocr import ocr_read
+from trion.agents.core import agent
+from trion.tools.document.ocr import ocr_read
 
 # Create OCR agent
 ocr_agent = agent(ocr_read, llm_type="function_calling")

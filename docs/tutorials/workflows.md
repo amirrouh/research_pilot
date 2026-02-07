@@ -3,8 +3,8 @@
 ## 1. Build Reading List
 
 ```python
-from assistant.tools.research.articles import query
-from assistant.tools.storage.articles import save_papers_batch
+from trion.tools.research.articles import query
+from trion.tools.storage.articles import save_papers_batch
 
 papers = query(keywords="machine learning", sources=[('arxiv', 10)])
 save_papers_batch(papers, tags=['ml', 'to-read'])
@@ -13,7 +13,7 @@ save_papers_batch(papers, tags=['ml', 'to-read'])
 ## 2. Organize by Project
 
 ```python
-from assistant.tools.storage.articles import search_papers_db, tag_paper
+from trion.tools.storage.articles import search_papers_db, tag_paper
 
 # Get papers
 papers = search_papers_db(keywords="genomics")
@@ -54,8 +54,8 @@ print(to_cite[['title', 'authors', 'year']])
 ## 5. Grant Research
 
 ```python
-from assistant.tools.research.grants import query, format_citation
-from assistant.tools.storage.grants import save_grants_batch
+from trion.tools.research.grants import query, format_citation
+from trion.tools.storage.grants import save_grants_batch
 
 # Search grants
 grants = query(keywords="cancer immunotherapy", fiscal_years=[2023, 2024])
@@ -72,7 +72,7 @@ for _, grant in high_value.head(3).iterrows():
 ## 6. PI Analysis
 
 ```python
-from assistant.tools.research.grants import get_pi_portfolio
+from trion.tools.research.grants import get_pi_portfolio
 
 # Get PI's funding history
 portfolio = get_pi_portfolio("John Smith")
@@ -88,7 +88,7 @@ print(f"By year:\n{by_year}")
 ## 7. Extract Text from PDFs
 
 ```python
-from assistant.tools.document.ocr import read
+from trion.tools.document.ocr import read
 
 # Extract from research paper
 text = read("paper.pdf")
@@ -103,8 +103,8 @@ scanned = read("scanned_form.jpg")
 ## 8. OCR with Agent
 
 ```python
-from assistant.agents.core import agent
-from assistant.tools.document.ocr import ocr_read
+from trion.agents.core import agent
+from trion.tools.document.ocr import ocr_read
 
 # Create OCR agent
 ocr_agent = agent(ocr_read, llm_type="function_calling")

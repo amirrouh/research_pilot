@@ -3,7 +3,7 @@
 ## Basic Search
 
 ```python
-from assistant.tools.research.articles import query
+from trion.tools.research.articles import query
 
 # Search both sources
 papers = query(keywords="CRISPR")
