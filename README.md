@@ -64,7 +64,7 @@ llm:
 
 ## Documentation
 
-Full documentation: https://amirrouh.github.io/research_pilot/
+View the [full documentation](https://amirrouh.github.io/research_pilot/) online.
 
 Or build locally:
 ```bash
