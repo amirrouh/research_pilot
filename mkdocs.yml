@@ -1,6 +1,6 @@
 site_name: Research Pilot Documentation
 site_description: Research Pilot - Search and organize academic papers
-site_dir: files/outputs/documentation_website
+site_dir: site
 
 theme:
   name: material

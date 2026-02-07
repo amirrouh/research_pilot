@@ -14,8 +14,9 @@ case "$1" in
             build)
                 echo -e "${BLUE}Building documentation...${NC}"
                 uv run mkdocs build
-                echo -e "${GREEN}✓ Built to files/outputs/documentation_website${NC}"
+                echo -e "${GREEN}✓ Built to site/${NC}"
                 ;;
+
             serve)
                 echo -e "${BLUE}Starting documentation server...${NC}"
                 echo -e "${GREEN}✓ Open http://127.0.0.1:8000${NC}"
@@ -33,7 +34,7 @@ case "$1" in
         echo "run.sh - Project Runner"
         echo ""
         echo "Usage:"
-        echo "  ./run.sh documentation build    Build docs to files/outputs/documentation_website"
+        echo "  ./run.sh documentation build    Build docs to site/"
         echo "  ./run.sh documentation serve    Start docs dev server (http://127.0.0.1:8000)"
         echo "  ./run.sh help                   Show this help"
         echo ""
