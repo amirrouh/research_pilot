@@ -22,6 +22,11 @@ Returns:
 
 from typing import Optional, Union
 from pathlib import Path
+from trion.tools._dependencies import require_package
+
+# Check docling is installed
+require_package("docling", "document")
+
 from docling.document_converter import DocumentConverter
 
 
