@@ -2,8 +2,8 @@
 Core agent utilities
 
 Usage:
-    from assistant.agents.core import agent
-    from assistant.tools.research.articles import search_papers
+    from trion.agents.core import agent
+    from trion.tools.research.articles import search_papers
 
     my_agent = agent(search_papers)
     response = my_agent.call("Find papers about CRISPR")
@@ -12,30 +12,7 @@ Usage:
 from langchain_ollama import ChatOllama
 from langchain_core.messages import HumanMessage, SystemMessage
 from typing import Optional
-import yaml
-from pathlib import Path
-
-
-def _load_config():
-    """Load configuration from config.yaml"""
-    config_path = Path(__file__).parent.parent.parent / "config.yaml"
-
-    if config_path.exists():
-        with open(config_path) as f:
-            return yaml.safe_load(f)
-    else:
-        # Default fallback
-        return {
-            "llm": {
-                "model": "qwen2.5:latest",
-                "base_url": "http://192.168.1.92:11434",
-                "temperature": 0.7
-            }
-        }
-
-
-# Load LLM config
-LLM_CONFIG = _load_config().get("llm", {})
+from trion.utils.config import CONFIG
 
 
 class _Agent:
@@ -99,7 +76,7 @@ def agent(*tools, llm_type: str = "general", system_message: str = "You are a he
         Agent instance ready to call
     """
     # Get LLM config for specified type
-    llm_config = LLM_CONFIG.get(llm_type, LLM_CONFIG.get("general", {}))
+    llm_config = CONFIG.get("llm", {}).get(llm_type, CONFIG.get("llm", {}).get("general", {}))
 
     # Create LLM from config
     llm = ChatOllama(

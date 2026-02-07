@@ -700,7 +700,7 @@ def search_and_save_grants(
             return f"No grants found for '{keywords}' in {fiscal_year}"
 
         # Save to database
-        from assistant.tools.storage.grants import save_grants_batch
+        from trion.tools.storage.grants import save_grants_batch
         tag_list = [t.strip() for t in tags.split(',') if t.strip()] if tags else []
         stats = save_grants_batch(results, tags=tag_list)
 

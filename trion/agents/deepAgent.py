@@ -2,8 +2,8 @@
 DeepAgent utilities - Advanced agents with skills, planning, and file access
 
 Minimal usage:
-    from assistant.agents.deepAgent import deep_agent
-    from assistant.tools.research.articles import search_papers
+    from trion.agents.deepAgent import deep_agent
+    from trion.tools.research.articles import search_papers
 
     agent = deep_agent(search_papers)
     response = agent.call("Find papers about CRISPR")
@@ -28,29 +28,7 @@ from deepagents import create_deep_agent
 from langchain_ollama import ChatOllama
 from typing import Optional
 from pathlib import Path
-import yaml
-
-
-def _load_config():
-    """Load configuration from config.yaml"""
-    config_path = Path(__file__).parent.parent.parent / "config.yaml"
-
-    if config_path.exists():
-        with open(config_path) as f:
-            return yaml.safe_load(f)
-    else:
-        return {
-            "llm": {
-                "function_calling": {
-                    "model": "qwen2.5:latest",
-                    "base_url": "http://localhost:11434",
-                    "temperature": 0.7
-                }
-            }
-        }
-
-
-CONFIG = _load_config()
+from trion.utils.config import CONFIG
 
 
 class DeepAgent:
@@ -118,7 +96,7 @@ def deep_agent(
         skill: Load specific skill by name (e.g., "paper-finder")
         llm_type: Which LLM config (function_calling, reasoning, general)
         system_prompt: System instructions
-        all_skills: Load all skills from assistant/skills/ (default: False)
+        all_skills: Load all skills from trion/skills/ (default: False)
 
     Returns:
         DeepAgent with simple .call(prompt) method
@@ -138,20 +116,31 @@ def deep_agent(
 
     # Determine skills to load
     skills_path = None
-    skills_dir = Path(__file__).parent.parent / "skills"
+    builtin_skills_dir = Path(__file__).parent.parent / "skills"
+    user_skills_dir = Path.home() / ".trion" / "skills"
 
     if skill:
-        # Load specific skill by name
-        skill_path = skills_dir / skill
+        # Load specific skill by name - check built-in first, then user skills
+        skill_path = builtin_skills_dir / skill
         if skill_path.exists():
             skills_path = [str(skill_path.parent)]
         else:
-            print(f"Warning: Skill '{skill}' not found at {skill_path}")
+            # Try user skills directory
+            skill_path = user_skills_dir / skill
+            if skill_path.exists():
+                skills_path = [str(skill_path.parent)]
+            else:
+                print(f"Warning: Skill '{skill}' not found in built-in or user skills")
 
     elif all_skills:
-        # Load all skills
-        if skills_dir.exists():
-            skills_path = [str(skills_dir)]
+        # Load all skills from both built-in and user directories
+        skills_path = []
+        if builtin_skills_dir.exists():
+            skills_path.append(str(builtin_skills_dir))
+        if user_skills_dir.exists():
+            skills_path.append(str(user_skills_dir))
+        if not skills_path:
+            skills_path = None
 
     # Create agent
     agent = create_deep_agent(

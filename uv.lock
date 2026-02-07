@@ -2901,51 +2901,6 @@ wheels = [
 ]
 
 [[package]]
-name = "research-pilot"
-version = "0.1.0"
-source = { editable = "." }
-dependencies = [
-    { name = "arxiv" },
-    { name = "beautifulsoup4" },
-    { name = "biopython" },
-    { name = "ddgs" },
-    { name = "deepagents" },
-    { name = "docling" },
-    { name = "langchain" },
-    { name = "langchain-ollama" },
-    { name = "lxml" },
-    { name = "mkdocs" },
-    { name = "mkdocs-material" },
-    { name = "ollama" },
-    { name = "pandas" },
-    { name = "playwright" },
-    { name = "python-jobspy" },
-    { name = "pyyaml" },
-    { name = "requests" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "arxiv", specifier = ">=2.0.0" },
-    { name = "beautifulsoup4", specifier = ">=4.12.0" },
-    { name = "biopython", specifier = ">=1.80" },
-    { name = "ddgs", specifier = ">=0.2.0" },
-    { name = "deepagents", specifier = ">=0.3.12" },
-    { name = "docling", specifier = ">=2.0.0" },
-    { name = "langchain", specifier = ">=0.3.0" },
-    { name = "langchain-ollama", specifier = ">=0.2.0" },
-    { name = "lxml", specifier = ">=5.0.0" },
-    { name = "mkdocs", specifier = ">=1.6.1" },
-    { name = "mkdocs-material", specifier = ">=9.7.1" },
-    { name = "ollama", specifier = ">=0.4.0" },
-    { name = "pandas", specifier = ">=2.0.0" },
-    { name = "playwright", specifier = ">=1.40.0" },
-    { name = "python-jobspy", specifier = ">=1.1.0" },
-    { name = "pyyaml", specifier = ">=6.0" },
-    { name = "requests", specifier = ">=2.31.0" },
-]
-
-[[package]]
 name = "rich"
 version = "14.3.2"
 source = { registry = "https://pypi.org/simple" }
@@ -3593,6 +3548,75 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/8b/ab/dd84f0e2337296a5f09749f7b5483215d75c8fa9e33738522e5ed81f7254/tree_sitter_typescript-0.23.2-cp39-abi3-win_amd64.whl", hash = "sha256:3f730b66396bc3e11811e4465c41ee45d9e9edd6de355a58bbbc49fa770da8f9", size = 278015, upload-time = "2024-11-11T02:36:07.631Z" },
     { url = "https://files.pythonhosted.org/packages/9f/e4/81f9a935789233cf412a0ed5fe04c883841d2c8fb0b7e075958a35c65032/tree_sitter_typescript-0.23.2-cp39-abi3-win_arm64.whl", hash = "sha256:05db58f70b95ef0ea126db5560f3775692f609589ed6f8dd0af84b7f19f1cbb7", size = 274052, upload-time = "2024-11-11T02:36:09.514Z" },
 ]
+
+[[package]]
+name = "trion"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "deepagents" },
+    { name = "langchain" },
+    { name = "langchain-ollama" },
+    { name = "pyyaml" },
+]
+
+[package.optional-dependencies]
+all = [
+    { name = "arxiv" },
+    { name = "beautifulsoup4" },
+    { name = "biopython" },
+    { name = "ddgs" },
+    { name = "docling" },
+    { name = "lxml" },
+    { name = "mkdocs" },
+    { name = "mkdocs-material" },
+    { name = "pandas" },
+    { name = "playwright" },
+    { name = "python-jobspy" },
+    { name = "requests" },
+]
+dev = [
+    { name = "mkdocs" },
+    { name = "mkdocs-material" },
+]
+document = [
+    { name = "beautifulsoup4" },
+    { name = "docling" },
+    { name = "lxml" },
+]
+research = [
+    { name = "arxiv" },
+    { name = "biopython" },
+    { name = "pandas" },
+]
+web = [
+    { name = "ddgs" },
+    { name = "playwright" },
+    { name = "python-jobspy" },
+    { name = "requests" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "arxiv", marker = "extra == 'research'", specifier = ">=2.0.0" },
+    { name = "beautifulsoup4", marker = "extra == 'document'", specifier = ">=4.12.0" },
+    { name = "biopython", marker = "extra == 'research'", specifier = ">=1.80" },
+    { name = "ddgs", marker = "extra == 'web'", specifier = ">=0.2.0" },
+    { name = "deepagents", specifier = ">=0.3.12" },
+    { name = "docling", marker = "extra == 'document'", specifier = ">=2.0.0" },
+    { name = "langchain", specifier = ">=0.3.0" },
+    { name = "langchain-ollama", specifier = ">=0.2.0" },
+    { name = "lxml", marker = "extra == 'document'", specifier = ">=5.0.0" },
+    { name = "mkdocs", marker = "extra == 'dev'", specifier = ">=1.6.1" },
+    { name = "mkdocs-material", marker = "extra == 'dev'", specifier = ">=9.7.1" },
+    { name = "pandas", marker = "extra == 'research'", specifier = ">=2.0.0" },
+    { name = "playwright", marker = "extra == 'web'", specifier = ">=1.40.0" },
+    { name = "python-jobspy", marker = "extra == 'web'", specifier = ">=1.1.0" },
+    { name = "pyyaml", specifier = ">=6.0" },
+    { name = "requests", marker = "extra == 'web'", specifier = ">=2.31.0" },
+    { name = "trion", extras = ["research", "document", "web", "dev"], marker = "extra == 'all'" },
+]
+provides-extras = ["research", "document", "web", "dev", "all"]
 
 [[package]]
 name = "triton"

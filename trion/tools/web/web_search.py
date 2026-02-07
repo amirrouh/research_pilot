@@ -4,7 +4,7 @@ Web Search Tool - DuckDuckGo Search
 Simple interface to search the web using DuckDuckGo.
 
 Usage:
-    from assistant.tools.web.web_search import duckduckgo_search
+    from trion.tools.web.web_search import duckduckgo_search
 
     # Basic search
     results = duckduckgo_search("Python programming")

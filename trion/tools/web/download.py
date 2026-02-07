@@ -4,7 +4,7 @@ Download Tool - Download files from URLs
 Simple interface to download files from the web.
 
 Usage:
-    from assistant.tools.web.download import download
+    from trion.tools.web.download import download
 
     # Download file
     download("https://example.com/file.pdf", "downloads/file.pdf")

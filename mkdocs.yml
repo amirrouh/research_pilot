@@ -1,6 +1,6 @@
-site_name: Research Pilot Documentation
-site_description: Research Pilot - Search and organize academic papers
-site_dir: site
+site_name: Trion Documentation
+site_description: Trion - Transdisciplinary Research Intelligence & Opportunity Navigation
+site_dir: files/outputs/documentation_website
 
 theme:
   name: material
@@ -16,18 +16,23 @@ theme:
 
 nav:
   - Home: index.md
-  - Tutorials:
-    - Getting Started: tutorials/README.md
+  - Getting Started:
+    - Installation: tutorials/README.md
+    - Quick Start: tutorials/quickstart.md
+  - Core Features:
+    - Management Functions: tutorials/management.md
+    - Using Agents: tutorials/agents.md
+    - Creating Skills: tutorials/skills.md
+  - Tools:
     - Searching Papers: tutorials/articles.md
     - Google Scholar: tutorials/google_scholar.md
+    - NIH Grants: tutorials/grants.md
     - Job Search: tutorials/jobs.md
     - Document OCR: tutorials/ocr.md
     - File Operations: tutorials/files.md
-    - Saving & Finding: tutorials/storage.md
-    - NIH Grants: tutorials/grants.md
-    - Using Agents: tutorials/agents.md
-    - Creating Skills: tutorials/skills.md
-    - Browser Tool: tutorials/browser.md
+    - Browser Automation: tutorials/browser.md
+    - Storage & Database: tutorials/storage.md
+  - Workflows:
     - Common Workflows: tutorials/workflows.md
 
 markdown_extensions:

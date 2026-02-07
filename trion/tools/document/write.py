@@ -4,7 +4,7 @@ File Write Tool - Write files to disk
 Simple interface to write text files.
 
 Usage:
-    from assistant.tools.document.write import write
+    from trion.tools.document.write import write
 
     # Write file
     write("Hello world", "output.txt")

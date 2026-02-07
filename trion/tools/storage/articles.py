@@ -5,8 +5,8 @@ Stores research papers from PubMed and arXiv in a local SQLite database.
 Provides search, tagging, and organization features.
 
 Usage:
-    from assistant.tools.storage.articles import save_papers_batch, search_papers_db
-    from assistant.tools.research.articles import query
+    from trion.tools.storage.articles import save_papers_batch, search_papers_db
+    from trion.tools.research.articles import query
 
     # Search and save papers
     results = query(keywords="CRISPR", sources=[('pubmed', 5)])
@@ -16,8 +16,8 @@ Usage:
     papers = search_papers_db(keywords="gene editing", tags=['genomics'])
 
     # Agent usage
-    from assistant.agents.core import agent
-    from assistant.tools.storage.articles import save_papers_to_db, find_saved_papers
+    from trion.agents.core import agent
+    from trion.tools.storage.articles import save_papers_to_db, find_saved_papers
 
     research_agent = agent(save_papers_to_db, find_saved_papers)
 """

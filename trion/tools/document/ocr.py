@@ -5,7 +5,7 @@ Advanced document parsing that preserves structure, tables, and layout.
 Converts PDFs, images, DOCX, HTML to clean Markdown.
 
 Usage:
-    from assistant.tools.document.ocr import read
+    from trion.tools.document.ocr import read
 
     # Extract text from PDF (maintains structure)
     text = read("document.pdf")

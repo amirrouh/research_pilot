@@ -4,7 +4,7 @@ File Read Tool - Read files from disk
 Simple interface to read text files.
 
 Usage:
-    from assistant.tools.document.read import read
+    from trion.tools.document.read import read
 
     # Read file
     content = read("document.txt")
