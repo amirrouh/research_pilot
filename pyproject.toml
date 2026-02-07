@@ -2,7 +2,7 @@
 name = "research-pilot"
 version = "0.1.0"
 description = "Research Pilot - Search academic papers, extract text from documents, and manage research workflows"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     "langchain>=0.3.0",
     "langchain-ollama>=0.2.0",
@@ -20,6 +20,7 @@ dependencies = [
     "ddgs>=0.2.0",
     "docling>=2.0.0",
     "python-jobspy>=1.1.0",
+    "deepagents>=0.3.12",
 ]
 
 [build-system]

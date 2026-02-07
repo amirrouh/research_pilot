@@ -12,8 +12,9 @@ Quick guides for common tasks.
 6. **[Saving & Finding](storage.md)** - Save papers, search later
 7. **[NIH Grants](grants.md)** - Search and manage NIH grants
 8. **[Using Agents](agents.md)** - Let AI do the work
-9. **[Browser Tool](browser.md)** - Web automation
-10. **[Common Workflows](workflows.md)** - Real examples
+9. **[Creating Skills](skills.md)** - Reusable agent workflows
+10. **[Browser Tool](browser.md)** - Web automation
+11. **[Common Workflows](workflows.md)** - Real examples
 
 ## Quick Example
 

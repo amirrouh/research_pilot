@@ -30,8 +30,12 @@ assistant/
 │   ├── tools/             # All tools organized by category
 │   │   └── research/
 │   │       └── articles.py    # Research tool (query + LangChain tool)
-│   └── agents/            # Agent utilities
-│       └── core.py        # Agent creation and execution
+│   ├── agents/            # Agent utilities
+│   │   ├── core.py        # Basic agents
+│   │   └── deepAgent.py   # Advanced agents with skills
+│   └── skills/            # DeepAgent skills
+│       └── paper-finder/
+│           └── SKILL.md   # Skill definition
 ```
 
 ---
@@ -131,6 +135,85 @@ my_agent = agent(
     system_message="You are a research assistant specialized in medical literature."
 )
 ```
+
+---
+
+## How to Use DeepAgents (Advanced)
+
+DeepAgents are advanced agents with skills, planning, file access, and subagents. **Requires Python >=3.11** (already configured).
+
+### Quick Start (Minimal)
+```python
+from assistant.agents.deepAgent import deep_agent
+from assistant.tools.research.articles import search_papers
+
+# Create agent
+agent = deep_agent(search_papers)
+
+# Use it - returns plain string
+response = agent.call("Find papers about CRISPR")
+print(response)  # No nested dicts!
+```
+
+### With Specific Skill
+```python
+# Load only the "paper-finder" skill
+agent = deep_agent(search_papers, skill="paper-finder")
+response = agent.call("Find papers")
+```
+
+### With All Skills
+```python
+# Load all skills from assistant/skills/
+agent = deep_agent(search_papers, all_skills=True)
+response = agent.call("Research something")
+```
+
+### All Options
+```python
+agent = deep_agent(
+    tool1, tool2,               # Tools
+    skill="paper-finder",       # Specific skill
+    llm_type="reasoning",       # LLM from config
+    system_prompt="Custom..."   # Instructions
+)
+
+response = agent.call("Your prompt")
+```
+
+### What You Get
+- **Simple interface**: `.call(prompt)` returns string
+- **Skills**: Load by name (`skill="my-skill"`)
+- **Planning**: Built-in task decomposition (write_todos tool)
+- **File access**: ls, read_file, write_file, edit_file tools
+- **Subagents**: Can spawn specialized agents
+- **Auto-config**: Loads from config.yaml
+
+### Creating Skills
+
+Skills live in `assistant/skills/`. See `assistant/skills/README.md` for details.
+
+Quick version:
+1. Create `assistant/skills/my-skill/SKILL.md`
+2. Add frontmatter + instructions
+3. Use with `deep_agent(tool, skill="my-skill")`
+
+**Example skill** (`assistant/skills/paper-finder/SKILL.md`):
+```markdown
+---
+name: paper-finder
+description: Use when user wants to search for academic papers
+---
+
+# Paper Finder
+
+## Instructions
+1. Use search_papers tool
+2. Display results
+3. Ask if user needs more
+```
+
+See `assistant/agents/README.md` for comprehensive guide.
 
 ---
 
